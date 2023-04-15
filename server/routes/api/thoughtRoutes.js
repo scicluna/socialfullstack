@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {getThoughts, getThought, postThought, updateThought, deleteThought, postReaction, deleteReaction} = require('../../controllers/thoughtController')
+const { getThoughts, getThought, postThought, updateThought, deleteThought, postReaction, deleteReaction, postReactionToReaction } = require('../../controllers/thoughtController')
 
 router.route('/')
     .get(getThoughts)
@@ -12,6 +12,8 @@ router.route('/:id')
 
 router.route('/:id/reactions')
     .post(postReaction)
+
+router.post('/:id/reactions/:parentReactionId', postReactionToReaction)
 
 router.route('/:id/reactions/:reactionId')
     .delete(deleteReaction)

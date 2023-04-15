@@ -18,8 +18,11 @@ const reactionSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-        }
+        },
+        reactions: []
     },
 );
+
+reactionSchema.add({ reactions: [reactionSchema] })
 
 module.exports = reactionSchema;
