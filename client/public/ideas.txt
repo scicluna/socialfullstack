@@ -1,0 +1,5 @@
+Search bar to find relavent posts  
+Login handled in top right widget with user profile/dashboard  
+Dark mode and filtering options delt with in top right hamburger  
+Comments displayed with responses nested and responses of responses nested in a collapse  
+Professional -- put on portfolio
