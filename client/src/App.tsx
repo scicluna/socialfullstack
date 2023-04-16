@@ -11,6 +11,7 @@ function App() {
   const [user, setUser] = useState<User>()
   const [filter, setFilter] = useState<string>('')
 
+  //initial data fetch
   useEffect(() => {
     const fetchThoughts = async () => {
       try {
@@ -31,29 +32,26 @@ function App() {
     setFilter(e.currentTarget.value)
   }
 
+  //filter reactions recursively
+  function recursiveFilter(reaction: Reaction, filter: string): boolean {
+    if (reaction.reactionBody.toLowerCase().includes(filter.toLowerCase())) {
+      return true;
+    }
+    if (!reaction.reactions || reaction.reactions.length == 0) return false
+
+    const filteredReactions = reaction.reactions.some(react => react.reactionBody.toLowerCase().includes(filter.toLowerCase()) || recursiveFilter(react, filter))
+    return filteredReactions
+  }
+
+  //handles thought filtering
   function filterData(thoughts: Thought[], filter: string) {
     const filteredData = thoughts.filter(thought => thought.thoughtText.toLowerCase().includes(filter.toLowerCase()))
     const recursiveFilters = thoughts.filter(thought => thought.reactions.some(react => recursiveFilter(react, filter)))
-
-    function recursiveFilter(reaction: Reaction, filter: string): boolean {
-      if (reaction.reactionBody.toLowerCase().includes(filter.toLowerCase())) {
-        return true;
-      }
-
-      if (!reaction.reactions || reaction.reactions.length == 0) return false
-
-      const filteredReactions = reaction.reactions.some(react => react.reactionBody.toLowerCase().includes(filter.toLowerCase()) || recursiveFilter(react, filter))
-      return filteredReactions
-    }
-
-
 
     return Array.from(new Set([...filteredData, ...recursiveFilters]))
   }
 
   const filteredData = filterData(thoughts, filter)
-  console.log(filteredData)
-
   return (
     <main className="flex flex-col bg-slate-100">
       <Navbar filter={filter} handleFilter={handleFilter} />
