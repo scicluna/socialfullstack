@@ -2,7 +2,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-export default function Navbar() {
+interface NavbarProp {
+    filter: string
+    handleFilter: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export default function Navbar({ filter, handleFilter }: NavbarProp) {
 
     //dropdown when profile button pressed allowing for login
     //options dropdown when hamburgers pressed
@@ -13,7 +18,8 @@ export default function Navbar() {
             <button>
                 <FontAwesomeIcon icon={faBars} size='3x' />
             </button>
-            <input type="text" placeholder='Search...' className="bg-slate-200 w-96 h-12 text-xl shadow-md"></input>
+            <input value={filter} onChange={handleFilter} type="text" placeholder='Search...'
+                className="bg-slate-200 w-96 h-12 text-xl shadow-md" />
             <button className="bg-slate-300 border-solid rounded-full flex justify-center items-center w-16 h-16">
                 <FontAwesomeIcon icon={faUser} size='3x' />
             </button>

@@ -1,8 +1,9 @@
 interface ThoughtSpaceProps {
     thoughts: Thought[]
+    filter: string
 }
 
-export default function ThoughtSpace({ thoughts }: ThoughtSpaceProps) {
+export default function ThoughtSpace({ thoughts, filter }: ThoughtSpaceProps) {
 
     //Filter thoughts based on filtered search
     //Display thoughts by recency with reactions underneath them
@@ -16,7 +17,7 @@ export default function ThoughtSpace({ thoughts }: ThoughtSpaceProps) {
                 <div key={react._id}>
                     <div className="flex items-center border-b border-slate-600 shadow-lg" style={{ marginLeft: `${depth * 50}px` }}>
                         <h4 className="font-extrabold pr-5">{react.userName}</h4>
-                        <p>{react.reactionBody}</p>
+                        <p className={react.reactionBody.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}>{react.reactionBody}</p>
                     </div>
                     {recursiveReactions(react, 1 + depth)}
                 </div>
@@ -31,13 +32,13 @@ export default function ThoughtSpace({ thoughts }: ThoughtSpaceProps) {
                     <div key={thought._id}>
                         <div className="flex items-center border-b border-slate-600 shadow-lg">
                             <h1 className="font-extrabold pr-5">{thought.userName}</h1>
-                            <p>{thought.thoughtText}</p>
+                            <p className={thought.thoughtText.toLowerCase().includes(filter.toLocaleLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}>{thought.thoughtText}</p>
                         </div>
                         {thought.reactions.map(reaction => (
                             <div key={reaction._id}>
                                 <div className="flex items-center border-b border-slate-600 shadow-lg" style={{ marginLeft: `${1 * 50}px` }}>
                                     <h4 className="font-extrabold pr-5">{reaction.userName}</h4>
-                                    <p>{reaction.reactionBody}</p>
+                                    <p className={reaction.reactionBody.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}>{reaction.reactionBody}</p>
                                 </div>
                                 {recursiveReactions(reaction, 2)}
                             </div>

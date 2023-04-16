@@ -9,6 +9,7 @@ function App() {
 
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [user, setUser] = useState<User>()
+  const [filter, setFilter] = useState<string>('')
 
   useEffect(() => {
     const fetchThoughts = async () => {
@@ -25,14 +26,41 @@ function App() {
     };
     fetchThoughts();
   }, []);
-  console.log(thoughts)
+
+  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
+    setFilter(e.currentTarget.value)
+  }
+
+  function filterData(thoughts: Thought[], filter: string) {
+    const filteredData = thoughts.filter(thought => thought.thoughtText.toLowerCase().includes(filter.toLowerCase()))
+    const recursiveFilters = thoughts.filter(thought => thought.reactions.some(react => recursiveFilter(react, filter)))
+
+    function recursiveFilter(reaction: Reaction, filter: string): boolean {
+      if (reaction.reactionBody.toLowerCase().includes(filter.toLowerCase())) {
+        return true;
+      }
+
+      if (!reaction.reactions || reaction.reactions.length == 0) return false
+
+      const filteredReactions = reaction.reactions.some(react => react.reactionBody.toLowerCase().includes(filter.toLowerCase()) || recursiveFilter(react, filter))
+      return filteredReactions
+    }
+
+
+
+    return Array.from(new Set([...filteredData, ...recursiveFilters]))
+  }
+
+  const filteredData = filterData(thoughts, filter)
+  console.log(filteredData)
 
   return (
     <main className="flex flex-col bg-slate-100">
-      <Navbar />
-      <ThoughtSpace thoughts={thoughts} />
+      <Navbar filter={filter} handleFilter={handleFilter} />
+      <ThoughtSpace thoughts={filteredData} filter={filter} />
     </main>
   )
 }
 
 export default App
+
