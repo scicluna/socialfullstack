@@ -8,7 +8,7 @@ function App() {
 
 
   return (
-    <main style={{ margin: "10px" }}>
+    <main className="flex flex-col">
       <Navbar />
       <ThoughtSpace />
     </main>

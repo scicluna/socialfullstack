@@ -1,6 +1,11 @@
 
 
 export default function ThoughtSpace() {
+
+    //Filter thoughts based on filtered search
+    //Display thoughts by recency with reactions underneath them
+    //FLEX - make reactions after one a collapsable
+
     return (
         <section>
             <div className="singleThought" style={{ display: "flex", flexDirection: "column", marginBottom: '5px' }}>
