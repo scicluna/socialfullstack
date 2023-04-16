@@ -83,6 +83,20 @@ module.exports = {
         }
     },
 
+    async getReaction(req, res) {
+        try {
+            const thought = await Thought.findOne({ _id: req.params.id });
+            if (!thought) return res.status(400).json({ message: 'No thought found with that ID' });
+
+            const reaction = findNestedReaction(thought.reactions, req.params.parentReactionId);
+            if (!reaction) return res.status(400).json({ message: 'No reaction found with that ID' });
+
+            res.json(reaction)
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    },
+
     async postReactionToReaction(req, res) {
         try {
             console.log('trying to post reaction to reaction')
@@ -90,7 +104,8 @@ module.exports = {
             if (!thought) return res.status(400).json({ message: 'No thought found with that ID' });
             console.log('thought found')
 
-            const parentReaction = thought.reactions.id(req.params.parentReactionId);
+            const parentReaction = findNestedReaction(thought.reactions, req.params.parentReactionId);
+            console.log(parentReaction)
             if (!parentReaction) return res.status(400).json({ message: 'No reaction found with that ID' });
 
             parentReaction.reactions.push(req.body);
@@ -117,3 +132,19 @@ module.exports = {
     }
 
 }
+
+function findNestedReaction(reactions, targetId) {
+    for (const reaction of reactions) {
+        if (reaction._id.toString() === targetId) {
+            return reaction;
+        }
+
+        if (reaction.reactions && reaction.reactions.length > 0) {
+            const nestedReaction = findNestedReaction(reaction.reactions, targetId);
+            if (nestedReaction) {
+                return nestedReaction;
+            }
+        }
+    }
+    return null;
+};
