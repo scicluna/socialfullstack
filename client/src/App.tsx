@@ -28,8 +28,13 @@ function App() {
     fetchThoughts();
   }, []);
 
+  //handle set filter
   function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
     setFilter(e.currentTarget.value)
+  }
+
+  function handleUser({ userName, email, password, friends, _id }: User) {
+    setUser({ userName, email, password, friends, _id })
   }
 
   //filter reactions recursively
@@ -54,8 +59,8 @@ function App() {
   const filteredData = filterData(thoughts, filter)
   return (
     <main className="flex flex-col bg-slate-100">
-      <Navbar filter={filter} handleFilter={handleFilter} />
-      <ThoughtSpace thoughts={filteredData} filter={filter} />
+      <Navbar filter={filter} handleFilter={handleFilter} user={user} handleUser={handleUser} />
+      <ThoughtSpace thoughts={filteredData} filter={filter} user={user} />
     </main>
   )
 }

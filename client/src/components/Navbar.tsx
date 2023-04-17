@@ -1,16 +1,18 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Hamburger from './Hamburger'
+import UserMenu from './UserMenu'
 
 interface NavbarProp {
     filter: string
     handleFilter: (e: React.ChangeEvent<HTMLInputElement>) => void
+    user: User | undefined
+    handleUser: (user: User) => void
 }
 
-export default function Navbar({ filter, handleFilter }: NavbarProp) {
+export default function Navbar({ filter, handleFilter, user, handleUser }: NavbarProp) {
 
     //dropdown when profile button pressed allowing for login
-    //options dropdown when hamburgers pressed
+    //username/signin logic
+    //implement darkmode/lightmode
 
 
     return (
@@ -18,9 +20,7 @@ export default function Navbar({ filter, handleFilter }: NavbarProp) {
             <Hamburger />
             <input value={filter} onChange={handleFilter} type="text" placeholder='Search...'
                 className="bg-slate-200 w-96 h-12 text-xl shadow-md" />
-            <button className="bg-slate-300 border-solid rounded-full flex justify-center items-center w-16 h-16">
-                <FontAwesomeIcon icon={faUser} size='3x' />
-            </button>
+            <UserMenu user={user} handleUser={handleUser} />
         </nav>
     )
 }

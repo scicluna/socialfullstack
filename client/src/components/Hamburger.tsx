@@ -17,7 +17,7 @@ export default function Hamburger() {
                 <div className={`p-2 transition-all ease-in duration-200 ${hamburger ? "translate-x-0" : "-translate-x-96"}`}>
                     <ul className="flex flex-col items-start">
                         <button onClick={() => { hamburger ? setHamburger(false) : setHamburger(true) }}>
-                            <FontAwesomeIcon icon={faClose} size='3x' />
+                            <FontAwesomeIcon icon={faClose} size='3x' className="opacity-50 hover:opacity-100" />
                         </button>
                         <button className="flex items-center" onClick={() => setDark(dark ? false : true)}>
                             <FontAwesomeIcon icon={dark ? faSun : faMoon} size='3x' />

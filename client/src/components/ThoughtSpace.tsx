@@ -3,10 +3,12 @@ import React from "react"
 interface ThoughtSpaceProps {
     thoughts: Thought[]
     filter: string
+    user: User | undefined
 }
 
-export default function ThoughtSpace({ thoughts, filter }: ThoughtSpaceProps) {
+export default function ThoughtSpace({ thoughts, filter, user }: ThoughtSpaceProps) {
 
+    //Allow for making new posts or responding to old posts
     //FLEX - make reactions after one a collapsable
 
     //define the structure of our reactions

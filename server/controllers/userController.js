@@ -1,105 +1,128 @@
-const { User, Thought} = require('../models')
+const { User, Thought } = require('../models')
 
 module.exports = {
-    async getUsers(req, res){
-        try{
-        const users = await User.find()
-        res.json(users)
+    async getUsers(req, res) {
+        try {
+            const users = await User.find()
+            res.json(users)
         }
-        catch(err){
+        catch (err) {
             res.status(500).json(err)
         }
     },
 
-    async getUser(req, res){
-        try{
-            const user = await User.find({_id: req.params.id})
-            
-            if (!user) return res.status(404).json({message: 'No user with that ID'})
+    async getUser(req, res) {
+        try {
+            const user = await User.find({ _id: req.params.id })
+
+            if (!user) return res.status(404).json({ message: 'No user with that ID' })
 
             res.json(user)
         }
-        catch(err){
+        catch (err) {
             res.status(500).json(err)
         }
     },
 
-    async postUser(req, res){
-        try{
+    async postUser(req, res) {
+        try {
             const user = await User.create(req.body)
             res.json(user)
         }
-        catch(err){
+        catch (err) {
             res.status(500).json(err)
         }
     },
 
-    async updateUser(req, res){
-        try{
+    async updateUser(req, res) {
+        try {
             const user = await User.findByIdAndUpdate(
                 req.params.id,
                 req.body,
-                {new: true, runValidators: true}
+                { new: true, runValidators: true }
             );
-            if (!user) return res.status(404).json({message: 'No user with that ID'});
+            if (!user) return res.status(404).json({ message: 'No user with that ID' });
 
             res.json(user)
         }
-        catch(err){
+        catch (err) {
             res.status(500).json(err);
         }
     },
 
-    async deleteUser(req, res){
-        try{
-            const user = await User.findOneAndRemove({_id: req.params.id});
-            
-            if (!user) return res.status(404).json({message: 'No user with that ID'});
+    async deleteUser(req, res) {
+        try {
+            const user = await User.findOneAndRemove({ _id: req.params.id });
 
-            const result = await Thought.deleteMany({_id: {$in: user.thoughts}});
+            if (!user) return res.status(404).json({ message: 'No user with that ID' });
+
+            const result = await Thought.deleteMany({ _id: { $in: user.thoughts } });
             res.json(result)
         }
-        catch(err){
+        catch (err) {
             res.status(500).json(err);
         }
     },
 
-    async newFriend(req, res){
-        try{
-            const user = await User.findOne({_id: req.params.id});
-            if (!user) return res.status(404).json({message: 'No user with that ID'});
+    async newFriend(req, res) {
+        try {
+            const user = await User.findOne({ _id: req.params.id });
+            if (!user) return res.status(404).json({ message: 'No user with that ID' });
 
-            const friend = await User.findOne({_id: req.params.friendId});
-            if (!friend) return res.status(404).json({message: 'No friend with that ID'});
+            const friend = await User.findOne({ _id: req.params.friendId });
+            if (!friend) return res.status(404).json({ message: 'No friend with that ID' });
 
-            if(user.friends.some((friendId) => friendId.equals(friend._id))) return res.status(400).json({message: 'They are already your friend'});
-        
+            if (user.friends.some((friendId) => friendId.equals(friend._id))) return res.status(400).json({ message: 'They are already your friend' });
+
             const result = await User.findByIdAndUpdate(user._id, {
-                $push: {friends: friend}
+                $push: { friends: friend }
             });
             res.json(result);
         }
-        catch(err){
+        catch (err) {
             res.status(500).json(err);
         }
     },
 
-    async removeFriend(req, res){
-        try{
-            const user = await User.findOne({_id: req.params.id});
-            if (!user) return res.status(404).json({message: 'No user with that ID'});
+    async removeFriend(req, res) {
+        try {
+            const user = await User.findOne({ _id: req.params.id });
+            if (!user) return res.status(404).json({ message: 'No user with that ID' });
 
-            const friend = await User.findOne({_id: req.params.friendId});
-            if (!friend) return res.status(404).json({message: 'No friend with that ID'});
+            const friend = await User.findOne({ _id: req.params.friendId });
+            if (!friend) return res.status(404).json({ message: 'No friend with that ID' });
 
-            if(user.friends.some((friendId) => friendId.equals(friend._id))){
-                const reaction = await User.findOneAndUpdate({_id: req.params.id}, {$pull: { friends: friend._id}}, { new: true })
+            if (user.friends.some((friendId) => friendId.equals(friend._id))) {
+                const reaction = await User.findOneAndUpdate({ _id: req.params.id }, { $pull: { friends: friend._id } }, { new: true })
                 return res.json(reaction)
             }
-            res.status(400).json({message: "This friend was not on your friend's list"})
+            res.status(400).json({ message: "This friend was not on your friend's list" })
         }
-        catch(err){
+        catch (err) {
             res.status(500).json(err);
+        }
+    },
+
+    async userLogin(req, res) {
+        try {
+            console.log(req.body);
+
+            const user = await User.findOne({ userName: req.body.userName });
+            if (!user) return res.status(404).json({ message: "User not found" });
+
+            const isCorrectPassword = await user.isCorrectPassword(req.body.password);
+            if (!isCorrectPassword) return res.status(400).json({ message: "Invalid username or password" });
+            res.json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    async userSignup(req, res) {
+        try {
+
+        } catch (err) {
+
         }
     }
 }

@@ -20,4 +20,5 @@ type User = {
     userName: string;
     email: string;
     friends: string[]; // An array of friend IDs
+    password: string
 };
