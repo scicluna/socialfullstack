@@ -120,9 +120,14 @@ module.exports = {
 
     async userSignup(req, res) {
         try {
+            console.log(req.body);
 
+            const user = await User.create({ userName: req.body.userName, password: req.body.password, email: req.body.email });
+            if (!user) return res.status(404).json({ message: "Signup Error" });
+
+            res.json(user);
         } catch (err) {
-
+            res.status(500).json(err);
         }
     }
 }

@@ -4,9 +4,6 @@ import ThoughtSpace from "./components/ThoughtSpace"
 
 function App() {
 
-  //fetch the thoughts and reactions from the backend and set them to a state (limit 100)
-  //track user login status with a state
-
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [user, setUser] = useState<User>()
   const [filter, setFilter] = useState<string>('')
@@ -33,8 +30,9 @@ function App() {
     setFilter(e.currentTarget.value)
   }
 
-  function handleUser({ userName, email, password, friends, _id }: User) {
-    setUser({ userName, email, password, friends, _id })
+  function handleUser(data: User | undefined = undefined) {
+    if (data) setUser({ userName: data.userName, email: data.email, password: data.password, friends: data.friends, _id: data._id })
+    else setUser(undefined)
   }
 
   //filter reactions recursively
@@ -55,6 +53,8 @@ function App() {
 
     return Array.from(new Set([...filteredData, ...recursiveFilters]))
   }
+
+  console.log(user)
 
   const filteredData = filterData(thoughts, filter)
   return (

@@ -5,7 +5,7 @@ interface NavbarProp {
     filter: string
     handleFilter: (e: React.ChangeEvent<HTMLInputElement>) => void
     user: User | undefined
-    handleUser: (user: User) => void
+    handleUser: (user?: User | undefined) => void
 }
 
 export default function Navbar({ filter, handleFilter, user, handleUser }: NavbarProp) {
