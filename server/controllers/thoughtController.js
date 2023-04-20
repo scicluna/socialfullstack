@@ -3,7 +3,7 @@ const { User, Thought } = require('../models')
 module.exports = {
     async getThoughts(req, res) {
         try {
-            const thoughts = await Thought.find().limit(100)
+            const thoughts = await Thought.find().limit(100).sort({ createdAt: -1 })
             res.json(thoughts);
         }
         catch (err) {

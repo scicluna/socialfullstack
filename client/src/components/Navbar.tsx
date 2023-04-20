@@ -18,10 +18,10 @@ export default function Navbar({ filter, handleFilter, user, handleUser, dark, h
 
 
     return (
-        <nav className="fixed flex w-screen justify-between items-center p-5 bg-slate-100 h-16">
+        <nav className="fixed flex w-screen justify-between items-center p-5 bg-slate-100 dark:bg-slate-700 h-16">
             <Hamburger dark={dark} handleDark={handleDark} />
             <input value={filter} onChange={handleFilter} type="text" placeholder='Search...'
-                className="bg-slate-200 w-96 h-12 text-xl shadow-md" />
+                className="bg-slate-200 dark:bg-slate-50 w-96 h-12 text-xl shadow-md" />
             <UserMenu user={user} handleUser={handleUser} />
         </nav>
     )

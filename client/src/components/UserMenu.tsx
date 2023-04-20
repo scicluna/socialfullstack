@@ -68,26 +68,25 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
     return (
         <div>
             <SlidingMenu icon={faUser} direction="right">
-
                 {!user ? <form className="flex flex-col items-end gap-2">
                     <label htmlFor="username">Username</label>
-                    <input ref={username} name="username" type="text" placeholder="username..." />
+                    <input className="text-black" ref={username} name="username" type="text" required placeholder="username..." />
                     <label htmlFor="password">Password</label>
-                    <input ref={password} name="password" type="password" placeholder="password..." />
+                    <input className="text-black" ref={password} name="password" type="password" required placeholder="password..." />
                     <label htmlFor="password">Password</label>
-                    <input ref={email} name="email" type="email" placeholder="email..." />
+                    <input className="text-black" ref={email} name="email" type="email" placeholder="email..." />
                     <div className="flex justify-around w-full">
-                        <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
+                        <button className="bg-slate-500 dark:text-slate-50 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
                             if (username.current && password.current) handleLogin(e, username.current, password.current);
                         }}>Login</button>
-                        <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
+                        <button className="bg-slate-500 dark:text-slate-50 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
                             if (username.current && password.current && email.current) {
                                 handleSignup(e, username.current, password.current, email.current)
                             }
                             setOpen(false);
                         }}>Sign Up</button>
                     </div>
-                </form> : <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" onClick={(e) => handleUser()}>Sign Out</button>}
+                </form> : <button className="bg-slate-500 dark:text-slate-100 w-16 rounded-sm opacity-50 hover:opacity-100" onClick={(e) => handleUser()}>Sign Out</button>}
             </SlidingMenu>
         </div>
     )

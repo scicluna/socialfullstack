@@ -18,7 +18,6 @@ function App() {
     setTimeout(async () => {
       await fetchThoughts()
     })
-
   }
 
   const fetchThoughts = async () => {
@@ -51,14 +50,14 @@ function App() {
     }
     if (!reaction.reactions || reaction.reactions.length == 0) return false
 
-    const filteredReactions = reaction.reactions.some(react => react.reactionBody.toLowerCase().includes(filter.toLowerCase()) || recursiveFilter(react, filter))
+    const filteredReactions = reaction.reactions.some(react => react.userName.toLowerCase().includes(filter.toLocaleLowerCase()) || react.reactionBody.toLowerCase().includes(filter.toLowerCase()) || recursiveFilter(react, filter))
     return filteredReactions
   }
 
   //handles thought filtering
   function filterData(thoughts: Thought[], filter: string) {
-    const filteredData = thoughts.filter(thought => thought.thoughtText.toLowerCase().includes(filter.toLowerCase()))
-    const recursiveFilters = thoughts.filter(thought => thought.reactions.some(react => recursiveFilter(react, filter)))
+    const filteredData = thoughts.filter(thought => thought.userName.toLowerCase().includes(filter.toLocaleLowerCase()) || thought.thoughtText.toLowerCase().includes(filter.toLowerCase()))
+    const recursiveFilters = thoughts.filter(thought => thought.userName.toLowerCase().includes(filter.toLocaleLowerCase()) || thought.reactions.some(react => recursiveFilter(react, filter)))
 
     return Array.from(new Set([...filteredData, ...recursiveFilters]))
   }
@@ -69,7 +68,7 @@ function App() {
 
   const filteredData = filterData(thoughts, filter)
   return (
-    <main className={`flex flex-col bg-slate-100 ${dark ? 'dark' : 'light'}`}>
+    <main className={`flex flex-col ${dark ? 'dark' : 'light'}`}>
       <Navbar filter={filter} handleFilter={handleFilter} user={user} handleUser={handleUser} dark={dark} handleDark={handleDark} />
       <ThoughtSpace thoughts={filteredData} filter={filter} user={user} handleUpdateThoughts={handleUpdateThoughts} />
     </main>
