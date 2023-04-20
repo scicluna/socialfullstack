@@ -7,23 +7,32 @@ function App() {
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [user, setUser] = useState<User>()
   const [filter, setFilter] = useState<string>('')
+  const [dark, setDark] = useState<boolean>(false)
 
   //initial data fetch
   useEffect(() => {
-    const fetchThoughts = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/thoughts/');
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-        const data = await response.json();
-        setThoughts(data);
-      } catch (error) {
-        console.error('Error fetching thoughts:', error);
-      }
-    };
     fetchThoughts();
   }, []);
+
+  const handleUpdateThoughts = () => {
+    setTimeout(async () => {
+      await fetchThoughts()
+    })
+
+  }
+
+  const fetchThoughts = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/thoughts/');
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      const data = await response.json();
+      setThoughts(data);
+    } catch (error) {
+      console.error('Error fetching thoughts:', error);
+    }
+  };
 
   //handle set filter
   function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
@@ -54,13 +63,15 @@ function App() {
     return Array.from(new Set([...filteredData, ...recursiveFilters]))
   }
 
-  console.log(user)
+  function handleDark() {
+    setDark(dark ? false : true)
+  }
 
   const filteredData = filterData(thoughts, filter)
   return (
-    <main className="flex flex-col bg-slate-100">
-      <Navbar filter={filter} handleFilter={handleFilter} user={user} handleUser={handleUser} />
-      <ThoughtSpace thoughts={filteredData} filter={filter} user={user} />
+    <main className={`flex flex-col bg-slate-100 ${dark ? 'dark' : 'light'}`}>
+      <Navbar filter={filter} handleFilter={handleFilter} user={user} handleUser={handleUser} dark={dark} handleDark={handleDark} />
+      <ThoughtSpace thoughts={filteredData} filter={filter} user={user} handleUpdateThoughts={handleUpdateThoughts} />
     </main>
   )
 }

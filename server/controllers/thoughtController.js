@@ -3,7 +3,7 @@ const { User, Thought } = require('../models')
 module.exports = {
     async getThoughts(req, res) {
         try {
-            const thoughts = await Thought.find().limit(100).sort({ createdAt: -1 })
+            const thoughts = await Thought.find().limit(100)
             res.json(thoughts);
         }
         catch (err) {
@@ -69,14 +69,17 @@ module.exports = {
     },
 
     async postReaction(req, res) {
+        console.log(req.body)
         try {
             const thought = await Thought.findOne({ _id: req.params.id });
             if (!thought) return res.status(400).json({ message: 'No thought found with that ID' });
 
+            console.log(thought)
+
             await Thought.findByIdAndUpdate(thought._id, {
                 $push: { reactions: req.body }
             })
-            res.json(req.body);
+            res.json({ message: 'Reaction Posted' });
         }
         catch (err) {
             res.status(500).json(err);

@@ -1,7 +1,6 @@
 import { useState, useRef } from "react"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faClose } from "@fortawesome/free-solid-svg-icons"
+import SlidingMenu from "./SlidingMenu"
 
 interface UserMenuProps {
     user: User | undefined
@@ -68,38 +67,28 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
     //actual jsx
     return (
         <div>
-            <button onClick={() => setOpen(open ? false : true)} className="bg-slate-300 border-solid rounded-full flex justify-center items-center w-16 h-16">
-                <FontAwesomeIcon icon={faUser} size='3x' />
-            </button>
-            <div className={`fixed bg-slate-300 h-screen top-0 right-0 transition-all ease-in duration-200 w-64 ${open ? "translate-x-0" : "translate-x-96"}`}>
-                <div className={`p-2 transition-all ease-in duration-200`}>
-                    <ul className="flex flex-col items-end">
-                        <button onClick={() => setOpen(open ? false : true)}>
-                            <FontAwesomeIcon icon={faClose} size='3x' className="opacity-50 hover:opacity-100" />
-                        </button>
+            <SlidingMenu icon={faUser} direction="right">
 
-                        {!user ? <form className="flex flex-col items-end gap-2">
-                            <label htmlFor="username">Username</label>
-                            <input ref={username} name="username" type="text" placeholder="username..." />
-                            <label htmlFor="password">Password</label>
-                            <input ref={password} name="password" type="password" placeholder="password..." />
-                            <label htmlFor="password">Password</label>
-                            <input ref={email} name="email" type="email" placeholder="email..." />
-                            <div className="flex justify-around w-full">
-                                <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
-                                    if (username.current && password.current) handleLogin(e, username.current, password.current);
-                                }}>Login</button>
-                                <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
-                                    if (username.current && password.current && email.current) {
-                                        handleSignup(e, username.current, password.current, email.current)
-                                    }
-                                    setOpen(false);
-                                }}>Sign Up</button>
-                            </div>
-                        </form> : <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" onClick={(e) => handleUser()}>Sign Out</button>}
-                    </ul>
-                </div>
-            </div>
+                {!user ? <form className="flex flex-col items-end gap-2">
+                    <label htmlFor="username">Username</label>
+                    <input ref={username} name="username" type="text" placeholder="username..." />
+                    <label htmlFor="password">Password</label>
+                    <input ref={password} name="password" type="password" placeholder="password..." />
+                    <label htmlFor="password">Password</label>
+                    <input ref={email} name="email" type="email" placeholder="email..." />
+                    <div className="flex justify-around w-full">
+                        <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
+                            if (username.current && password.current) handleLogin(e, username.current, password.current);
+                        }}>Login</button>
+                        <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
+                            if (username.current && password.current && email.current) {
+                                handleSignup(e, username.current, password.current, email.current)
+                            }
+                            setOpen(false);
+                        }}>Sign Up</button>
+                    </div>
+                </form> : <button className="bg-slate-500 w-16 rounded-sm opacity-50 hover:opacity-100" onClick={(e) => handleUser()}>Sign Out</button>}
+            </SlidingMenu>
         </div>
     )
 }
