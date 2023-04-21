@@ -18,7 +18,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
         e.preventDefault()
         if (!username || !password) return
         try {
-            const response = await fetch('http://localhost:3001/api/users/login',
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -43,7 +43,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
         e.preventDefault()
         if (!username || !password) return
         try {
-            const response = await fetch('http://localhost:3001/api/users/signup',
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/signup`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

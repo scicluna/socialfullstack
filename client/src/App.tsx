@@ -24,7 +24,7 @@ function App() {
   //fetches our thoughts
   const fetchThoughts = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/thoughts/');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/thoughts/`);
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
       }
