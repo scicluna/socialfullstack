@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrent": "^0.3.2"
+    "concurrent": "^0.3.2",
+    "typescript": "^4.9.3"
   }
 }
