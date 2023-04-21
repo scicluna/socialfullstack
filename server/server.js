@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('./config/connection');
 const routes = require('./routes');
 const cors = require('cors')
+const path = require('path')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -13,6 +14,13 @@ app.use(cors({
   credentials: true,
   allowedHeaders: ['Content-Type']
 }))
+
+app.use(express.static(path.join(__dirname, '../dist')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
 app.use(routes);
 
 db.once('open', () => {
