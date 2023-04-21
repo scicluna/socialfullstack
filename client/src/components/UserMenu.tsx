@@ -76,7 +76,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
                     <input className="text-black" ref={username} name="username" type="text" required placeholder="username..." />
                     <label htmlFor="password">Password</label>
                     <input className="text-black" ref={password} name="password" type="password" required placeholder="password..." />
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="email">Password</label>
                     <input className="text-black" ref={email} name="email" type="email" placeholder="email..." />
                     <div className="flex justify-around w-full">
                         <button className="bg-slate-500 dark:text-slate-50 w-16 rounded-sm opacity-50 hover:opacity-100" type="submit" onClick={(e) => {
