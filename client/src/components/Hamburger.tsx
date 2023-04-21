@@ -14,7 +14,7 @@ interface HamburgerProps {
 export default function Hamburger({ dark, handleDark }: HamburgerProps) {
     return (
         <SlidingMenu icon={faBars} direction='left'>
-            <button className="flex items-center" onClick={() => handleDark()}>
+            <button className="flex items-center w-32" onClick={() => handleDark()}>
                 <FontAwesomeIcon icon={dark ? faSun : faMoon} size='3x' />
                 <p>{dark ? "Light Mode" : "Dark Mode"}</p>
             </button>

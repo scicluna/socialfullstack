@@ -7,7 +7,7 @@ function App() {
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [user, setUser] = useState<User>()
   const [filter, setFilter] = useState<string>('')
-  const [dark, setDark] = useState<boolean>(false)
+  const [dark, setDark] = useState<boolean>(true)
 
   //initial data fetch
   useEffect(() => {

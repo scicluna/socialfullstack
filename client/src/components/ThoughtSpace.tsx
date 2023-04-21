@@ -18,16 +18,27 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
     function Reaction(reaction: Reaction, depth: number, thoughtId: string,) {
         return (
             <>
-                <div className="flex items-center border-b shadow-slate-500 shadow-sm w-fit m-2" style={{ marginLeft: `${depth * 50}px` }}>
-                    <h4 className={`font-extrabold mr-5 ${reaction.userName.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}`}>{reaction.userName}</h4>
-                    <p className={reaction.reactionBody.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}>{reaction.reactionBody}</p>
-                    {user &&
-                        <button className="ml-3 hover:text-slate-400" data-thought={reaction._id} data-depth={depth} onClick={createReaction}>
-                            <FontAwesomeIcon icon={faPlus} />
-                        </button>
-                    }
+                <div className="flex h-4/6" >
+                    {Array(depth).fill(0).map((deep, i) => {
+                        //[0,0]
+                        const deepness = i == 0 ? 0 : 100
+
+                        return (
+                            <div className={` bg-indigo-${Math.floor((i * 100) % 500) + 100} w-2`} style={{ marginLeft: `${deepness}px` }} />
+                        )
+                    })}
+                    <div className={` bg-indigo-${Math.floor((depth * 100) % 500 + 100)} w-2`} style={{ marginLeft: `100px` }} />
+                    <div className="flex items-center border-b shadow-slate-500 shadow-sm w-fit m-2 p-3 bg-slate-100 dark:text-slate-900 rounded-xl">
+                        <h4 className={`font-extrabold mr-5 ${reaction.userName.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}`}>{reaction.userName}</h4>
+                        <p className={reaction.reactionBody.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}>{reaction.reactionBody}</p>
+                        {user &&
+                            <button className="ml-3 hover:text-slate-400" data-thought={reaction._id} data-depth={depth} onClick={createReaction}>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </button>
+                        }
+                    </div>
                 </div>
-                {selectedId === reaction._id && <input className="border-2 border-slate-600  text-black w-96" placeholder="Reaction..." type="text" style={{ marginLeft: `${(depth + 1) * 50}px` }}
+                {selectedId === reaction._id && <input className="border-2 border-slate-600 m-1 text-black w-96" placeholder="Reaction..." type="text" style={{ marginLeft: `${(depth + 1) * 100}px` }}
                     onBlur={(e) => postReactionToReaction(e, thoughtId, reaction._id)}></input>}
             </>
         )
@@ -138,27 +149,30 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
 
     //core jsx
     return (
-        <section className="bg-slate-200 dark:bg-slate-900 dark:text-slate-200 mt-12 pt-5 text-lg">
+        <section className="bg-slate-200 dark:bg-slate-900 dark:text-slate-200 mt-12 pt-5 min-h-screen min-w-max text-lg">
             {user &&
                 <button className="ml-3 hover:text-slate-400" onClick={e => setSelectedId('0')}>
                     <FontAwesomeIcon icon={faPlus} />
                 </button>
             }
-            {selectedId == '0' && <input className=" shadow-slate-500 shadow-sm w-96 text-black" placeholder="Reaction..." type="text" onBlur={createThought}></input>}
+            {selectedId == '0' && <input className=" shadow-slate-500 shadow-sm w-96 m-1 text-black" placeholder="Reaction..." type="text" onBlur={createThought}></input>}
             <div className="flex flex-col m-5" >
                 {thoughts.map(thought => (
                     <div key={thought._id}>
-                        <div className="flex items-center border-b shadow-slate-500 shadow-sm w-fit mb-1.5">
-                            <h1 className={`font-extrabold mr-5 ${thought.userName.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}`}>{thought.userName}</h1>
-                            <p className={`${thought.thoughtText.toLowerCase().includes(filter.toLocaleLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}`} >{thought.thoughtText}</p>
-                            {user &&
-                                <button className="ml-3 hover:text-slate-400 " data-thought={thought._id} data-depth={0} onClick={createReaction}>
-                                    <FontAwesomeIcon icon={faPlus} />
-                                </button>
-                            }
+                        <div className="flex h-5/6">
+                            <div className="bg-slate-50 h-ful w-2" />
+                            <div className="flex items-center border-b text-3xl   shadow-slate-500 shadow-sm p-3 bg-slate-100 dark:text-slate-900 rounded-xl w-fit m-1.5">
+                                <h1 className={`font-extrabold mr-5 ${thought.userName.toLowerCase().includes(filter.toLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}`}>{thought.userName}</h1>
+                                <p className={`${thought.thoughtText.toLowerCase().includes(filter.toLocaleLowerCase()) && filter != '' ? 'bg-yellow-100' : ''}`} >{thought.thoughtText}</p>
+                                {user &&
+                                    <button className="ml-3 hover:text-slate-400 " data-thought={thought._id} data-depth={0} onClick={createReaction}>
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </button>
+                                }
+                            </div>
                         </div>
                         {selectedId === thought._id &&
-                            <input className=" shadow-slate-500 shadow-sm w-96 text-black" placeholder="Reaction..." type="text" style={{ marginLeft: `${1 * 50}px` }} onBlur={(e) => postReactionToThought(e, thought._id)}></input>
+                            <input className="  shadow-slate-500 shadow-sm w-96 m-1 text-black" placeholder="Reaction..." type="text" style={{ marginLeft: `${1 * 50}px` }} onBlur={(e) => postReactionToThought(e, thought._id)}></input>
                         }
                         {thought.reactions.map(reaction => (
                             <React.Fragment key={reaction._id}>{recursiveReactions(reaction, 1, thought._id, true)}</React.Fragment>

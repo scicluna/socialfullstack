@@ -11,6 +11,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
     const username = useRef<HTMLInputElement>(null)
     const password = useRef<HTMLInputElement>(null)
     const email = useRef<HTMLInputElement>(null)
+    const [hamburger, setHamburger] = useState<boolean>(false)
 
     //handles user login
     async function handleLogin(e: React.MouseEvent<HTMLButtonElement>, username: HTMLInputElement, password: HTMLInputElement) {
@@ -84,7 +85,9 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
                             }
                         }}>Sign Up</button>
                     </div>
-                </form> : <button className="bg-slate-500 dark:text-slate-100 w-16 rounded-sm opacity-50 hover:opacity-100" onClick={(e) => handleUser()}>Sign Out</button>}
+                </form> : <button className="bg-slate-500 dark:text-slate-100 w-36 h-16 rounded-lg opacity-50 hover:opacity-100 text-lg"
+                    onClick={(e) => handleUser()}>
+                    Sign Out</button>}
             </SlidingMenu>
         </div>
     )
