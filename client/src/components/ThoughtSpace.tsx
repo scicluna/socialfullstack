@@ -114,22 +114,24 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
                 userName: user?.userName,
                 reactionBody: e.currentTarget.value
             }
-            await fetch(`${API_URL}/api/thoughts/${thoughtId}/reactions`, {
+            const response = await fetch(`${API_URL}/api/thoughts/${thoughtId}/reactions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(reaction)
             })
-            setSelectedId(null)
-            handleUpdateThoughts()
+            if (response.ok) {
+                setSelectedId(null)
+                await handleUpdateThoughts()
+            }
         } catch (err) {
             console.log(err)
         }
     }
 
     //posts a new reaction to a reaction to the db
-    function postReactionToReaction(e: React.FocusEvent<HTMLInputElement>, thoughtId: string, reactionId: string) {
+    async function postReactionToReaction(e: React.FocusEvent<HTMLInputElement>, thoughtId: string, reactionId: string) {
         try {
             if (!e.currentTarget) return null
 
@@ -137,15 +139,17 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
                 userName: user?.userName,
                 reactionBody: e.currentTarget.value
             }
-            fetch(`${API_URL}/api/thoughts/${thoughtId}/reactions/${reactionId}`, {
+            const response = await fetch(`${API_URL}/api/thoughts/${thoughtId}/reactions/${reactionId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(reaction)
             })
-            setSelectedId(null)
-            handleUpdateThoughts()
+            if (response.ok) {
+                setSelectedId(null)
+                handleUpdateThoughts()
+            }
         } catch (err) {
             console.log(err)
         }

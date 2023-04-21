@@ -20,10 +20,8 @@ function App() {
   }, []);
 
   //refreshes our thoughts
-  const handleUpdateThoughts = () => {
-    setTimeout(async () => {
-      await fetchThoughts()
-    })
+  const handleUpdateThoughts = async () => {
+    await fetchThoughts()
   }
 
   //fetches our thoughts

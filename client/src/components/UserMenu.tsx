@@ -15,7 +15,6 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
     const username = useRef<HTMLInputElement>(null)
     const password = useRef<HTMLInputElement>(null)
     const email = useRef<HTMLInputElement>(null)
-    const [hamburger, setHamburger] = useState<boolean>(false)
 
     //handles user login
     async function handleLogin(e: React.MouseEvent<HTMLButtonElement>, username: HTMLInputElement, password: HTMLInputElement) {
