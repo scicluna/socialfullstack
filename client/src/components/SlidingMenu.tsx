@@ -9,8 +9,8 @@ interface SlidingMenuProps {
     direction: string
 }
 
+//cool sliding menu demoing "children" as a prop
 export default function SlidingMenu({ children, icon, direction }: SlidingMenuProps) {
-
     const [hamburger, setHamburger] = useState<boolean>(false)
     return (
         <div>

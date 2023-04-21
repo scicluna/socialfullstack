@@ -10,6 +10,7 @@ interface HamburgerProps {
     handleDark: () => void
 }
 
+//left menu
 export default function Hamburger({ dark, handleDark }: HamburgerProps) {
     return (
         <SlidingMenu icon={faBars} direction='left'>

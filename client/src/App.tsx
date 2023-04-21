@@ -14,12 +14,14 @@ function App() {
     fetchThoughts();
   }, []);
 
+  //refreshes our thoughts
   const handleUpdateThoughts = () => {
     setTimeout(async () => {
       await fetchThoughts()
     })
   }
 
+  //fetches our thoughts
   const fetchThoughts = async () => {
     try {
       const response = await fetch('http://localhost:3001/api/thoughts/');
@@ -38,6 +40,7 @@ function App() {
     setFilter(e.currentTarget.value)
   }
 
+  //sets our user information after login
   function handleUser(data: User | undefined = undefined) {
     if (data) setUser({ userName: data.userName, email: data.email, password: data.password, friends: data.friends, _id: data._id })
     else setUser(undefined)
@@ -62,10 +65,12 @@ function App() {
     return Array.from(new Set([...filteredData, ...recursiveFilters]))
   }
 
+  //handles darkmode
   function handleDark() {
     setDark(dark ? false : true)
   }
 
+  //core app
   const filteredData = filterData(thoughts, filter)
   return (
     <main className={`flex flex-col ${dark ? 'dark' : 'light'}`}>

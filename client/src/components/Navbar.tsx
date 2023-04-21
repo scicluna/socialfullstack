@@ -10,18 +10,13 @@ interface NavbarProp {
     handleDark: () => void
 }
 
+//cool navbar
 export default function Navbar({ filter, handleFilter, user, handleUser, dark, handleDark }: NavbarProp) {
-
-    //dropdown when profile button pressed allowing for login
-    //username/signin logic
-    //implement darkmode/lightmode
-
-
     return (
-        <nav className="fixed flex w-screen justify-between items-center p-5 bg-slate-100 dark:bg-slate-700 h-16">
+        <nav className="fixed flex w-screen justify-between items-center p-5 bg-slate-100 dark:bg-slate-700 h-16 shadow-slate-500 shadow-sm">
             <Hamburger dark={dark} handleDark={handleDark} />
             <input value={filter} onChange={handleFilter} type="text" placeholder='Search...'
-                className="bg-slate-200 dark:bg-slate-50 w-96 h-12 text-xl shadow-md" />
+                className=" w-96 h-12 text-xl shadow-md" />
             <UserMenu user={user} handleUser={handleUser} />
         </nav>
     )

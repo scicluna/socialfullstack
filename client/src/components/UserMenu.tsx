@@ -8,7 +8,6 @@ interface UserMenuProps {
 }
 
 export default function UserMenu({ user, handleUser }: UserMenuProps) {
-    const [open, setOpen] = useState<boolean>(false)
     const username = useRef<HTMLInputElement>(null)
     const password = useRef<HTMLInputElement>(null)
     const email = useRef<HTMLInputElement>(null)
@@ -64,7 +63,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
         }
     }
 
-    //actual jsx
+    //actual jsx / right menu
     return (
         <div>
             <SlidingMenu icon={faUser} direction="right">
@@ -83,7 +82,6 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
                             if (username.current && password.current && email.current) {
                                 handleSignup(e, username.current, password.current, email.current)
                             }
-                            setOpen(false);
                         }}>Sign Up</button>
                     </div>
                 </form> : <button className="bg-slate-500 dark:text-slate-100 w-16 rounded-sm opacity-50 hover:opacity-100" onClick={(e) => handleUser()}>Sign Out</button>}
