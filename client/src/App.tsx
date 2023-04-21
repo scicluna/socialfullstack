@@ -2,6 +2,11 @@ import { useEffect, useState } from "react"
 import Navbar from "./components/Navbar"
 import ThoughtSpace from "./components/ThoughtSpace"
 
+const API_URL = process.env.NODE_ENV === 'production'
+  ? window.location.origin
+  : 'http://localhost:3001';
+
+
 function App() {
 
   const [thoughts, setThoughts] = useState<Thought[]>([])
@@ -24,7 +29,7 @@ function App() {
   //fetches our thoughts
   const fetchThoughts = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/thoughts/`);
+      const response = await fetch(`${API_URL}/api/thoughts/`);
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
       }

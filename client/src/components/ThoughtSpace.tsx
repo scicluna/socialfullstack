@@ -2,6 +2,10 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState } from "react"
 
+const API_URL = process.env.NODE_ENV === 'production'
+    ? window.location.origin
+    : 'http://localhost:3001';
+
 interface ThoughtSpaceProps {
     thoughts: Thought[]
     filter: string
@@ -87,7 +91,7 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
                 userName: user?.userName,
                 thoughtText: e.currentTarget.value
             }
-            await fetch(`http://localhost:3001/api/thoughts`, {
+            await fetch(`${API_URL}/api/thoughts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -110,7 +114,7 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
                 userName: user?.userName,
                 reactionBody: e.currentTarget.value
             }
-            await fetch(`http://localhost:3001/api/thoughts/${thoughtId}/reactions`, {
+            await fetch(`${API_URL}/api/thoughts/${thoughtId}/reactions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -133,7 +137,7 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
                 userName: user?.userName,
                 reactionBody: e.currentTarget.value
             }
-            fetch(`http://localhost:3001/api/thoughts/${thoughtId}/reactions/${reactionId}`, {
+            fetch(`${API_URL}/api/thoughts/${thoughtId}/reactions/${reactionId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -2,6 +2,10 @@ import { useState, useRef } from "react"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import SlidingMenu from "./SlidingMenu"
 
+const API_URL = process.env.NODE_ENV === 'production'
+    ? window.location.origin
+    : 'http://localhost:3001';
+
 interface UserMenuProps {
     user: User | undefined
     handleUser: (user?: User | undefined) => void
@@ -18,7 +22,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
         e.preventDefault()
         if (!username || !password) return
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`,
+            const response = await fetch(`${API_URL}/api/users/login`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -43,7 +47,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
         e.preventDefault()
         if (!username || !password) return
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/signup`,
+            const response = await fetch(`${API_URL}/api/users/signup`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
