@@ -34,7 +34,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
                 const data = await response.json();
                 handleUser(data)
             } else {
-                console.error('Login failed')
+                window.alert('Login Failed. Invalid Username or Password. Please try again.')
             }
         } catch (err) {
             console.error(err)
@@ -44,7 +44,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
     //handles the signup button
     async function handleSignup(e: React.MouseEvent<HTMLButtonElement>, username: HTMLInputElement, password: HTMLInputElement, email: HTMLInputElement) {
         e.preventDefault()
-        if (!username || !password) return
+        if (!username || !password || !email) return
         try {
             const response = await fetch(`${API_URL}/api/users/signup`,
                 {
@@ -60,7 +60,7 @@ export default function UserMenu({ user, handleUser }: UserMenuProps) {
                 const data = await response.json();
                 handleUser(data)
             } else {
-                console.error('Login failed')
+                window.alert('Signup Failed. Invalid Username, Password, or Email. Please try again.')
             }
         } catch (err) {
             console.error(err)

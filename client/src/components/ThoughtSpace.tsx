@@ -6,6 +6,7 @@ const API_URL = process.env.NODE_ENV === 'production'
     ? window.location.origin
     : 'http://localhost:3001';
 
+
 interface ThoughtSpaceProps {
     thoughts: Thought[]
     filter: string
@@ -28,7 +29,7 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
                         const deepness = i == 0 ? 0 : 100
 
                         return (
-                            <div className={` bg-indigo-${Math.floor((i * 100) % 500) + 100} w-2`} style={{ marginLeft: `${deepness}px` }} />
+                            <div key={i + i + i} className={` bg-indigo-${Math.floor((i * 100) % 500) + 100} w-2`} style={{ marginLeft: `${deepness}px` }} />
                         )
                     })}
                     <div className={` bg-indigo-${Math.floor((depth * 100) % 500 + 100)} w-2`} style={{ marginLeft: `100px` }} />
@@ -160,7 +161,7 @@ export default function ThoughtSpace({ thoughts, filter, user, handleUpdateThoug
         <section className="bg-slate-200 dark:bg-slate-900 dark:text-slate-200 mt-12 pt-5 min-h-screen min-w-max text-lg">
             {user &&
                 <button className="ml-3 hover:text-slate-400" onClick={e => setSelectedId('0')}>
-                    <FontAwesomeIcon icon={faPlus} />
+                    <FontAwesomeIcon icon={faPlus} className="h-8 w-8 " />
                 </button>
             }
             {selectedId == '0' && <input className=" shadow-slate-500 shadow-sm w-96 m-1 text-black" placeholder="Reaction..." type="text" onBlur={createThought}></input>}

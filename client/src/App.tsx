@@ -10,7 +10,7 @@ const API_URL = process.env.NODE_ENV === 'production'
 function App() {
 
   const [thoughts, setThoughts] = useState<Thought[]>([])
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User | undefined>(JSON.parse(localStorage.getItem('user') || 'null'))
   const [filter, setFilter] = useState<string>('')
   const [dark, setDark] = useState<boolean>(true)
 
@@ -45,8 +45,14 @@ function App() {
 
   //sets our user information after login
   function handleUser(data: User | undefined = undefined) {
-    if (data) setUser({ userName: data.userName, email: data.email, password: data.password, friends: data.friends, _id: data._id })
-    else setUser(undefined)
+    if (data) {
+      setUser({ userName: data.userName, email: data.email, password: data.password, friends: data.friends, _id: data._id })
+      localStorage.setItem('user', JSON.stringify(data))
+    }
+    else {
+      setUser(undefined)
+      localStorage.removeItem('user')
+    }
   }
 
   //filter reactions recursively

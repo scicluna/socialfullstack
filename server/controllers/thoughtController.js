@@ -69,7 +69,6 @@ module.exports = {
     },
 
     async postReaction(req, res) {
-        console.log(req.body)
         try {
             const thought = await Thought.findOne({ _id: req.params.id });
             if (!thought) return res.status(400).json({ message: 'No thought found with that ID' });
@@ -108,7 +107,6 @@ module.exports = {
             console.log('thought found')
 
             const parentReaction = findNestedReaction(thought.reactions, req.params.parentReactionId);
-            console.log(parentReaction)
             if (!parentReaction) return res.status(400).json({ message: 'No reaction found with that ID' });
 
             parentReaction.reactions.push(req.body);

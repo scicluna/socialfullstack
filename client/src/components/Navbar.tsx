@@ -17,7 +17,10 @@ export default function Navbar({ filter, handleFilter, user, handleUser, dark, h
             <Hamburger dark={dark} handleDark={handleDark} />
             <input value={filter} onChange={handleFilter} type="text" placeholder='Search...'
                 className=" w-96 h-12 text-xl shadow-md" />
-            <UserMenu user={user} handleUser={handleUser} />
+            <div className='relative'>
+                {user ? '' : <span className='absolute top-8 -left-12 text-xl w-fit text-white'>Log In</span>}
+                <UserMenu user={user} handleUser={handleUser} />
+            </div>
         </nav>
     )
 }
